@@ -1,15 +1,23 @@
-import asyncio
-from rest import RestServer
+import aiohttp
+from aiohttp import web
+from views import routes
 
 
-class App:
+class Unchat(web.Application):
     def __init__(self):
-        self.rest = RestServer()
+        super().__init__(middlewares=[self.logging_middleware])
+        self.register_routes()
 
-    def run(self):
-        asyncio.run(self.start())
+    def run(self, *args, **kwargs):
+        web.run_app(self, *args, **kwargs)
 
-    async def start(self):
-        await self.rest.start()
-        await asyncio.sleep(999999)
-        # ^ This'll change i swear, I'm just using it rn to keep the process from exiting
+    @web.middleware
+    async def logging_middleware(self, request: aiohttp.web_request.Request, handler):
+        response: aiohttp.web_response.Response = await handler(request)
+        self.logger.info(
+            f"{request.remote} -> {request.path} {response.status} {response.reason} {request.headers.get('user-agent')}"
+        )
+        return response
+
+    def register_routes(self):
+        self.add_routes(routes)

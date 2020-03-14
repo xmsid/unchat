@@ -1,5 +1,5 @@
 import logging
-from app import App
+from app import Unchat
 
 logging.basicConfig(
     level=logging.INFO,
@@ -7,5 +7,5 @@ logging.basicConfig(
     datefmt="%m-%d %H:%M:%S",
 )
 logging.getLogger("aiohttp.access").setLevel(logging.ERROR)
-app = App()
-app.run()
+unchat = Unchat()
+unchat.run(host="localhost", port=8080)
