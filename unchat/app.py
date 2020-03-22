@@ -1,6 +1,6 @@
 import aiohttp
 from aiohttp import web
-from views import routes
+from routes import routes
 
 
 class Unchat(web.Application):
