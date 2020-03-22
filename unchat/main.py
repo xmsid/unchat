@@ -8,4 +8,4 @@ logging.basicConfig(
 )
 logging.getLogger("aiohttp.access").setLevel(logging.ERROR)
 unchat = Unchat()
-unchat.run(host="localhost", port=8080)
+unchat.run(host="localhost", port=3000)
